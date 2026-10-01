@@ -22,17 +22,13 @@ class GameEngine:
         self.font_small = pygame.font.SysFont(None, 24)
 
     def evaluate_guess(self, guess):
-        """Draws next card and evaluates prediction."""
         self.next_card = self.deck.draw()
 
-        #BUG SYMPTON:
-        #Face and high cards are incorrectly judged lower than small cards.
-        
         if guess == "HIGHER":
-            correct = self.next_card.rank_str > self.current_card.rank_str
+            correct = self.next_card.numeric_rank > self.current_card.numeric_rank
         else:
-            correct = self.next_card.rank_str < self.current_card.rank_str
-        
+            correct = self.next_card.numeric_rank < self.current_card.numeric_rank
+
         if correct:
             self.score += 1
             self.status_msg = f"CORRECT! {self.next_card.rank_str} vs {self.current_card.rank_str}"
@@ -77,7 +73,10 @@ class GameEngine:
         high_surf = self.font_medium.render("HIGHER", True, (255, 255, 255))
         screen.blit(
             high_surf,
-            (self.btn_higher.centerx - high_surf.get_width() // 2, self.btn_higher.centery - high_surf.get_height() // 2),
+            (
+                self.btn_higher.centerx - high_surf.get_width() // 2,
+                self.btn_higher.centery - high_surf.get_height() // 2,
+            ),
         )
 
         pygame.draw.rect(screen, (170, 50, 50), self.btn_lower, border_radius=8)
@@ -85,5 +84,8 @@ class GameEngine:
         low_surf = self.font_medium.render("LOWER", True, (255, 255, 255))
         screen.blit(
             low_surf,
-            (self.btn_lower.centerx - low_surf.get_width() // 2, self.btn_lower.centery - low_surf.get_height() // 2),
+            (
+                self.btn_lower.centerx - low_surf.get_width() // 2,
+                self.btn_lower.centery - low_surf.get_height() // 2,
+            ),
         )
